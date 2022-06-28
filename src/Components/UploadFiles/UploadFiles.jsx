@@ -1,4 +1,11 @@
-import { Button, Dialog, DialogTitle, Typography } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@material-ui/core";
 import { useState } from "react";
 
 function UploadFiles() {
@@ -15,10 +22,23 @@ function UploadFiles() {
   return (
     <div>
       <Button onClick={handleClickOpen}>Add Picture and Audio</Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>
           <Typography>Add Audio and Picture</Typography>
         </DialogTitle>
+        <DialogContent>
+          <Button component="label">
+            Upload Picture
+            <input name="picture" type="file" hidden />
+          </Button>
+          <Button component="label">
+            Upload Audio
+            <input name="audio" type="file" hidden />
+          </Button>
+        </DialogContent>
+        <DialogActions>
+          <Button>Submit</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
