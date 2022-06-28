@@ -17,6 +17,8 @@
     "nodemon": "^1.18.5"
   },
   "scripts": {
+    "server": "nodemon  --watch server server/server.js",
+    "client": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
