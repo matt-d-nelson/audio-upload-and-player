@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import Map from "../Map/Map";
 
 function UploadFiles() {
@@ -15,6 +16,7 @@ function UploadFiles() {
   const [audio, setAudio] = useState("");
   const [picturePath, setPicturePath] = useState("");
   const [audioPath, setAudioPath] = useState("");
+  const dispatch = useDispatch();
 
   const updatePicture = (event) => {
     setPicture(event.target.file);
@@ -24,6 +26,16 @@ function UploadFiles() {
   const updateAudio = (event) => {
     setAudio(event.target.file);
     setAudioPath(event.target.value);
+  };
+
+  const handleClickSubmitData = () => {
+    const newPost = new FormData();
+    newPost.append("lat", markers[0].lat);
+    newPost.append("lng", markers[0].lng);
+    newPost.append("picture", picture);
+    newPost.append("audio", audio);
+
+    dispatch({ type: "ADD_POST", payload: newPost });
   };
 
   return (
@@ -42,7 +54,7 @@ function UploadFiles() {
       </Button>
       <Typography>{audioPath}</Typography>
 
-      <Button>Submit</Button>
+      <Button onClick={handleClickSubmitData}>Submit</Button>
     </div>
   );
 }
