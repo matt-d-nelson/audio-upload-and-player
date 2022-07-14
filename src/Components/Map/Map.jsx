@@ -1,5 +1,6 @@
 import { Typography } from "@material-ui/core";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { useState } from "react";
 import { useCallback, useRef } from "react";
 import libraries from "./Libraries";
 
@@ -28,11 +29,19 @@ function Map() {
     libraries,
   });
 
+  // local state
+  const [markers, setMarkers] = useState([]);
+
   // useRef for map to avoid rerenders
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
+
+  const setMarkerLocation = (event) => {
+    console.log(markers);
+    setMarkers([{ lat: event.latLng.lat(), lng: event.latLng.lng() }]);
+  };
 
   // ensure map is loaded without error before returning
   if (loadError) return "Error loading map";
@@ -47,7 +56,12 @@ function Map() {
         center={center}
         options={options}
         onLoad={onMapLoad}
-      ></GoogleMap>
+        onClick={setMarkerLocation}
+      >
+        {markers.map((marker) => (
+          <Marker position={{ lat: marker.lat, lng: marker.lng }} />
+        ))}
+      </GoogleMap>
     </div>
   );
 }
