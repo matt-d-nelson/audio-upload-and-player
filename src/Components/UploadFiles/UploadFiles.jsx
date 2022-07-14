@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
+import Map from "../Map/Map";
 
 function UploadFiles() {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ function UploadFiles() {
           <Typography>Add Audio and Picture</Typography>
         </DialogTitle>
         <DialogContent>
+          <Map />
           <Button component="label">
             Upload Picture
             <input name="picture" type="file" hidden />
