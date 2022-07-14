@@ -22,7 +22,7 @@ const options = {
   zoomControl: true,
 };
 
-function Map() {
+function Map(props) {
   // load the g map
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -30,7 +30,7 @@ function Map() {
   });
 
   // local state
-  const [markers, setMarkers] = useState([]);
+  //   const [markers, setMarkers] = useState([]);
 
   // useRef for map to avoid rerenders
   const mapRef = useRef();
@@ -39,8 +39,8 @@ function Map() {
   }, []);
 
   const setMarkerLocation = (event) => {
-    console.log(markers);
-    setMarkers([{ lat: event.latLng.lat(), lng: event.latLng.lng() }]);
+    console.log(props.markers);
+    props.setMarkers([{ lat: event.latLng.lat(), lng: event.latLng.lng() }]);
   };
 
   // ensure map is loaded without error before returning
@@ -58,7 +58,7 @@ function Map() {
         onLoad={onMapLoad}
         onClick={setMarkerLocation}
       >
-        {markers.map((marker) => (
+        {props.markers.map((marker) => (
           <Marker
             position={{ lat: marker.lat, lng: marker.lng }}
             key={marker.lat}

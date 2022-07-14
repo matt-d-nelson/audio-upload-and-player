@@ -26,10 +26,10 @@ function UploadFiles() {
       <Button onClick={handleClickOpen}>Add Picture and Audio</Button>
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>
-          <Typography>Add Audio and Picture</Typography>
+          <Typography>Add Audio, Picture, and Location</Typography>
         </DialogTitle>
         <DialogContent>
-          <Map setMarker={setMarkers} markers={markers} />
+          <Map setMarkers={setMarkers} markers={markers} />
           <Button component="label">
             Upload Picture
             <input name="picture" type="file" hidden />
