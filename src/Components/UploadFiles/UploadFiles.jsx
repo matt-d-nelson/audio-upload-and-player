@@ -12,6 +12,10 @@ import Map from "../Map/Map";
 function UploadFiles() {
   const [open, setOpen] = useState(false);
   const [markers, setMarkers] = useState([]);
+  const [picture, setPicture] = useState("");
+  const [audio, setAudio] = useState("");
+  const [picturePath, setPicturePath] = useState("");
+  const [audioPath, setAudioPath] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,6 +23,16 @@ function UploadFiles() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const updatePicture = (event) => {
+    setPicture(event.target.file);
+    setPicturePath(event.target.value);
+  };
+
+  const updateAudio = (event) => {
+    setAudio(event.target.file);
+    setAudioPath(event.target.value);
   };
 
   return (
@@ -30,14 +44,16 @@ function UploadFiles() {
         </DialogTitle>
         <DialogContent>
           <Map setMarkers={setMarkers} markers={markers} />
-          <Button component="label">
+          <Button component="label" variant="outlined">
             Upload Picture
-            <input name="picture" type="file" hidden />
+            <input name="picture" type="file" hidden onChange={updatePicture} />
           </Button>
-          <Button component="label">
+          <Typography>{picturePath}</Typography>
+          <Button component="label" variant="outlined">
             Upload Audio
-            <input name="audio" type="file" hidden />
+            <input name="audio" type="file" hidden onChange={updateAudio} />
           </Button>
+          <Typography>{audioPath}</Typography>
         </DialogContent>
         <DialogActions>
           <Button>Submit</Button>
