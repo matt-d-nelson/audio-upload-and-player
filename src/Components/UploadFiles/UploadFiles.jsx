@@ -10,20 +10,11 @@ import { useState } from "react";
 import Map from "../Map/Map";
 
 function UploadFiles() {
-  const [open, setOpen] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [picture, setPicture] = useState("");
   const [audio, setAudio] = useState("");
   const [picturePath, setPicturePath] = useState("");
   const [audioPath, setAudioPath] = useState("");
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const updatePicture = (event) => {
     setPicture(event.target.file);
@@ -37,28 +28,21 @@ function UploadFiles() {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Add Picture and Audio</Button>
-      <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>
-          <Typography>Add Audio, Picture, and Location</Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Map setMarkers={setMarkers} markers={markers} />
-          <Button component="label" variant="outlined">
-            Upload Picture
-            <input name="picture" type="file" hidden onChange={updatePicture} />
-          </Button>
-          <Typography>{picturePath}</Typography>
-          <Button component="label" variant="outlined">
-            Upload Audio
-            <input name="audio" type="file" hidden onChange={updateAudio} />
-          </Button>
-          <Typography>{audioPath}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button>Submit</Button>
-        </DialogActions>
-      </Dialog>
+      <Typography>Add Audio, Picture, and Location</Typography>
+
+      <Map setMarkers={setMarkers} markers={markers} />
+      <Button component="label" variant="outlined">
+        Upload Picture
+        <input name="picture" type="file" hidden onChange={updatePicture} />
+      </Button>
+      <Typography>{picturePath}</Typography>
+      <Button component="label" variant="outlined">
+        Upload Audio
+        <input name="audio" type="file" hidden onChange={updateAudio} />
+      </Button>
+      <Typography>{audioPath}</Typography>
+
+      <Button>Submit</Button>
     </div>
   );
 }

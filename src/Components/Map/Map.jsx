@@ -1,7 +1,19 @@
 import { Typography } from "@material-ui/core";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxOption,
+  ComboboxPopover,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+import { Data, GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useState } from "react";
 import { useCallback, useRef } from "react";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
 import libraries from "./Libraries";
 
 // map container
@@ -29,14 +41,16 @@ function Map(props) {
     libraries,
   });
 
-  // local state
-  //   const [markers, setMarkers] = useState([]);
-
   // useRef for map to avoid rerenders
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  });
 
   const setMarkerLocation = (event) => {
     console.log(props.markers);
@@ -50,6 +64,7 @@ function Map(props) {
   return (
     <div>
       <Typography>🍁</Typography>
+      <Search panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={10}
@@ -65,6 +80,63 @@ function Map(props) {
           />
         ))}
       </GoogleMap>
+    </div>
+  );
+}
+
+function Search({ panTo }) {
+  // deconstructed object returned from usePlacesAutocoplete
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 45.56477, lng: () => -94.317886 },
+      radius: 200 * 1000,
+    },
+  });
+
+  const panToAddress = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+    console.log("address");
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      panTo({ lat, lng });
+      console.log(lat, lng);
+    } catch (err) {
+      console.log(err);
+      alert("error panning to location");
+    }
+  };
+
+  const setAutocompleteVal = (event) => {
+    setValue(event.target.value);
+    console.log(data);
+  };
+
+  return (
+    <div style={{ zIndex: 10 }}>
+      <Combobox onSelect={panToAddress}>
+        <ComboboxInput
+          value={value}
+          onChange={setAutocompleteVal}
+          disabled={!ready}
+          placeholder="search address"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
     </div>
   );
 }
