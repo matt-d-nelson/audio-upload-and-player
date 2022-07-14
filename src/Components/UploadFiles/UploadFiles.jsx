@@ -11,6 +11,7 @@ import Map from "../Map/Map";
 
 function UploadFiles() {
   const [open, setOpen] = useState(false);
+  const [markers, setMarkers] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,7 +29,7 @@ function UploadFiles() {
           <Typography>Add Audio and Picture</Typography>
         </DialogTitle>
         <DialogContent>
-          <Map />
+          <Map setMarker={setMarkers} markers={markers} />
           <Button component="label">
             Upload Picture
             <input name="picture" type="file" hidden />

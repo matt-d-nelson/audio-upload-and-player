@@ -59,7 +59,10 @@ function Map() {
         onClick={setMarkerLocation}
       >
         {markers.map((marker) => (
-          <Marker position={{ lat: marker.lat, lng: marker.lng }} />
+          <Marker
+            position={{ lat: marker.lat, lng: marker.lng }}
+            key={marker.lat}
+          />
         ))}
       </GoogleMap>
     </div>
