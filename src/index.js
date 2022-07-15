@@ -11,6 +11,7 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 //---------------------- SAGAS ----------------------//
 function* rootSaga() {
   yield takeEvery("ADD_POST", addPost);
+  yield takeEvery("GET_POSTS", getPosts);
 }
 
 function* addPost(action) {
@@ -29,11 +30,25 @@ function* addPost(action) {
   }
 }
 
+function* getPosts(action) {
+  try {
+    const res = yield axios({
+      method: "get",
+      url: "/audio",
+    });
+    yield put({ type: "SET_POSTS", payload: res.data });
+  } catch (err) {
+    console.log(err);
+    alert("error getting posts");
+  }
+}
+
 const sagaMiddleware = createSagaMiddleware();
 
 //---------------------- REDUCERS ----------------------//
 const posts = (state = [], action) => {
   if (action.type === "SET_POSTS") {
+    console.log("in set posts", action.payload);
     state = action.payload;
   }
   return state;

@@ -36,6 +36,7 @@ router.post(
 );
 
 router.get("/", (req, res) => {
+  console.log("GET", posts);
   res.send(posts);
 });
 

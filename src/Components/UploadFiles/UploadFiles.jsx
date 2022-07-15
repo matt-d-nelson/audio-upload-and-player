@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Map from "../Map/Map";
