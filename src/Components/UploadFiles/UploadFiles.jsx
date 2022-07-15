@@ -19,12 +19,12 @@ function UploadFiles() {
   const dispatch = useDispatch();
 
   const updatePicture = (event) => {
-    setPicture(event.target.file);
+    setPicture(event.target.files[0]);
     setPicturePath(event.target.value);
   };
 
   const updateAudio = (event) => {
-    setAudio(event.target.file);
+    setAudio(event.target.files[0]);
     setAudioPath(event.target.value);
   };
 
