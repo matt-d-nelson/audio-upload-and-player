@@ -9,8 +9,9 @@ import Search from "../Search/Search";
 // map container
 // define with props in future / move into Map func
 const mapContainerStyle = {
-  width: "400px",
-  height: "300px",
+  height: "400px",
+  //   width: "400px",
+  //   height: "300px",
 };
 // lat lng where map is centered
 const center = {
